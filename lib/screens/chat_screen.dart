@@ -25,26 +25,28 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         title: Text('Chat'),
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (ctx, index) => Container(
-          padding: EdgeInsets.all(8),
-          child: Text('This works!'),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FirebaseFirestore.instance
-              .collection('chats/pXrvLYk5PpSl86vXxe1n/messages')
-              .snapshots()
-              .listen(
-            (data) {
-              data.docs.forEach((element) {
-                print(element['text']);
-              });
-            },
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('chats/pXrvLYk5PpSl86vXxe1n/messages')
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          final documents = snapshot.data.docs;
+          return ListView.builder(
+            itemCount: documents.length,
+            itemBuilder: (ctx, index) => Container(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                documents[index]['text'],
+              ),
+            ),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
         child: Icon(Icons.add),
       ),
     );
