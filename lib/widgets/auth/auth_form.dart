@@ -17,11 +17,41 @@ class _AuthFormState extends State<AuthForm> {
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Form(
-              child: Text(''),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(labelText: 'Email address'),
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'User name'),
+                  ),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(labelText: 'Password'),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Text('Login'),
+                  ),
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Text('Login'),
+                  ),
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text('Create new account'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
+    );
   }
 }
