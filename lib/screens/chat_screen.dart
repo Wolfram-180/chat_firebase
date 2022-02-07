@@ -13,7 +13,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    Firebase.initializeApp().whenComplete(() {
+    Firebase.initializeApp(name: 'flutter-chat-f14f4').whenComplete(() {
       print("completed");
       setState(() {});
     });
@@ -46,7 +46,11 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          FirebaseFirestore.instance
+              .collection('chats/pXrvLYk5PpSl86vXxe1n/messages')
+              .add({'text': 'added by button'});
+        },
         child: Icon(Icons.add),
       ),
     );
