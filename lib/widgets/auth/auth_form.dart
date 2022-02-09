@@ -1,25 +1,37 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
-  const AuthForm({Key? key}) : super(key: key);
+  final void Function(
+    String email,
+    String username,
+    String password,
+    bool isLogin,
+  ) submitFn;
 
   @override
   _AuthFormState createState() => _AuthFormState();
+
+  AuthForm(this.submitFn);
 }
 
 class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
-  var _isLogin = true;
   var _userEmail = '';
   var _userName = '';
   var _userPassword = '';
+  var _isLogin = true;
 
   void _trySubmit() {
     final isValid = _formKey.currentState?.validate();
     FocusScope.of(context).unfocus();
     if (isValid == true) {
       _formKey.currentState?.save();
-      //
+      widget.submitFn(
+        _userEmail,
+        _userName,
+        _userPassword,
+        _isLogin,
+      );
     }
   }
 
