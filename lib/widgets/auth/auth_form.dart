@@ -37,6 +37,7 @@ class _AuthFormState extends State<AuthForm> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFormField(
+                    key: ValueKey('email'),
                     validator: (value) {
                       if (value == null ||
                           value.isEmpty == true ||
@@ -52,11 +53,12 @@ class _AuthFormState extends State<AuthForm> {
                     },
                   ),
                   TextFormField(
+                    key: ValueKey('username'),
                     validator: (value) {
                       if (value == null ||
                           value.isEmpty == true ||
-                          value.length < 7) {
-                        return 'Please enter valid user name with at least 7 symbols';
+                          value.length < 4) {
+                        return 'Please enter valid user name with at least 4 symbols';
                       }
                       return null;
                     },
@@ -67,11 +69,12 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                   if (!_isLogin)
                     TextFormField(
+                      key: ValueKey('password'),
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty == true ||
-                            value.length < 4) {
-                          return 'Please enter valid password with at least 4 symbols';
+                            value.length < 7) {
+                          return 'Please enter valid password with at least 7 symbols';
                         }
                         return null;
                       },
