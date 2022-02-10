@@ -8,11 +8,12 @@ class AuthForm extends StatefulWidget {
     bool isLogin,
     BuildContext ctx,
   ) submitFn;
+  final bool isLoading;
 
   @override
   _AuthFormState createState() => _AuthFormState();
 
-  AuthForm(this.submitFn);
+  AuthForm(this.submitFn, this.isLoading);
 }
 
 class _AuthFormState extends State<AuthForm> {
@@ -101,25 +102,28 @@ class _AuthFormState extends State<AuthForm> {
                   SizedBox(
                     height: 12,
                   ),
-                  RaisedButton(
-                    onPressed: _trySubmit,
-                    child: Text(
-                      _isLogin == true ? 'Login' : 'Sign up',
+                  if (widget.isLoading == true) CircularProgressIndicator(),
+                  if (widget.isLoading == false)
+                    RaisedButton(
+                      onPressed: _trySubmit,
+                      child: Text(
+                        _isLogin == true ? 'Login' : 'Sign up',
+                      ),
                     ),
-                  ),
-                  FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    onPressed: () {
-                      setState(() {
-                        _isLogin = !_isLogin;
-                      });
-                    },
-                    child: Text(
-                      _isLogin == true
-                          ? 'Create new account'
-                          : 'I already have an account',
+                  if (widget.isLoading == false)
+                    FlatButton(
+                      textColor: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        setState(() {
+                          _isLogin = !_isLogin;
+                        });
+                      },
+                      child: Text(
+                        _isLogin == true
+                            ? 'Create new account'
+                            : 'I already have an account',
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
