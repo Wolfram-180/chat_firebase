@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -10,14 +9,14 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Firebase.initializeApp(name: 'flutter-chat-f14f4').whenComplete(() {
-      print("completed");
-      setState(() {});
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Firebase.initializeApp(name: 'flutter-chat-f14f4').whenComplete(() {
+  //     print("completed");
+  //     setState(() {});
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
