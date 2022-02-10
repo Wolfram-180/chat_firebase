@@ -67,38 +67,38 @@ class _AuthFormState extends State<AuthForm> {
                       _userEmail = value!;
                     },
                   ),
-                  TextFormField(
-                    key: ValueKey('username'),
-                    validator: (value) {
-                      if (value == null ||
-                          value.isEmpty == true ||
-                          value.length < 4) {
-                        return 'Please enter valid user name with at least 4 symbols';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(labelText: 'User name'),
-                    onSaved: (value) {
-                      _userName = value!;
-                    },
-                  ),
                   if (!_isLogin)
                     TextFormField(
-                      key: ValueKey('password'),
+                      key: ValueKey('username'),
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty == true ||
-                            value.length < 7) {
-                          return 'Please enter valid password with at least 7 symbols';
+                            value.length < 4) {
+                          return 'Please enter valid user name with at least 4 symbols';
                         }
                         return null;
                       },
-                      obscureText: true,
-                      decoration: InputDecoration(labelText: 'Password'),
+                      decoration: InputDecoration(labelText: 'User name'),
                       onSaved: (value) {
-                        _userPassword = value!;
+                        _userName = value!;
                       },
                     ),
+                  TextFormField(
+                    key: ValueKey('password'),
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty == true ||
+                          value.length < 7) {
+                        return 'Please enter valid password with at least 7 symbols';
+                      }
+                      return null;
+                    },
+                    obscureText: true,
+                    decoration: InputDecoration(labelText: 'Password'),
+                    onSaved: (value) {
+                      _userPassword = value!;
+                    },
+                  ),
                   SizedBox(
                     height: 12,
                   ),
