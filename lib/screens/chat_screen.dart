@@ -10,15 +10,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Firebase.initializeApp(name: 'flutter-chat-f14f4').whenComplete(() {
-  //     print("completed");
-  //     setState(() {});
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
