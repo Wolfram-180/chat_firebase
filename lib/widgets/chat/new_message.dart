@@ -8,8 +8,32 @@ class NewMessage extends StatefulWidget {
 }
 
 class _NewMessageState extends State<NewMessage> {
+  var _enteredMessage = '';
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      margin: EdgeInsets.only(top: 8),
+      padding: EdgeInsets.all(8),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(labelText: 'Send a message...'),
+              onChanged: (value) {
+                setState(() {
+                  _enteredMessage = value;
+                });
+              },
+            ),
+          ),
+          IconButton(
+            onPressed: _enteredMessage.trim().isEmpty ? null : () {},
+            icon: Icon(Icons.send),
+            color: Theme.of(context).primaryColor,
+          ),
+        ],
+      ),
+    );
   }
 }
