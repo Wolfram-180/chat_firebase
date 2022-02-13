@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble(this.message, this.isMe, {required this.key});
+  MessageBubble(this.message, this.userId, this.isMe, {required this.key});
   final String message;
-  //final String username;this.username,
+  final String userId;
   final bool isMe;
   final Key key;
 
@@ -21,7 +22,8 @@ class MessageBubble extends StatelessWidget {
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
-                bottomLeft: !isMe ? Radius.circular(0) : Radius.circular(12),
+                bottomLeft:
+                    !isMe ? const Radius.circular(0) : Radius.circular(12),
                 bottomRight: isMe ? Radius.circular(0) : Radius.circular(12),
               ),
             ),
@@ -33,7 +35,33 @@ class MessageBubble extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             child: Column(
               children: [
-                //Text(username, ),
+                FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(userId)
+                        .get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('Loading');
+                      }
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        Map<String, dynamic> data =
+                            snapshot.data!.data() as Map<String, dynamic>;
+                        return Text(
+                          data['username'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: isMe
+                                ? Colors.black
+                                : Theme.of(context)
+                                    .accentTextTheme
+                                    .headline1
+                                    ?.color,
+                          ),
+                        );
+                      }
+                    }),
                 Text(
                   message,
                   style: TextStyle(
