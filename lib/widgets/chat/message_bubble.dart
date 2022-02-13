@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble(this.message, this.userId, this.isMe, {required this.key});
+  MessageBubble(this.message, this.userName, this.isMe, {required this.key});
   final String message;
-  final String userId;
+  final String userName;
   final bool isMe;
   final Key key;
 
@@ -34,36 +33,21 @@ class MessageBubble extends StatelessWidget {
             ),
             margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             child: Column(
+              crossAxisAlignment:
+                  isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
-                FutureBuilder<DocumentSnapshot>(
-                    future: FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(userId)
-                        .get(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text('Loading');
-                      }
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        Map<String, dynamic> data =
-                            snapshot.data!.data() as Map<String, dynamic>;
-                        return Text(
-                          data['username'],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: isMe
-                                ? Colors.black
-                                : Theme.of(context)
-                                    .accentTextTheme
-                                    .headline1
-                                    ?.color,
-                          ),
-                        );
-                      }
-                    }),
+                Text(
+                  userName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: isMe
+                        ? Colors.black
+                        : Theme.of(context).accentTextTheme.headline1?.color,
+                  ),
+                ),
                 Text(
                   message,
+                  textAlign: isMe ? TextAlign.end : TextAlign.start,
                   style: TextStyle(
                     color: isMe
                         ? Colors.black
