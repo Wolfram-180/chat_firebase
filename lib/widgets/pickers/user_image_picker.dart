@@ -11,7 +11,7 @@ class UserImagePicker extends StatefulWidget {
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
-  late File _pickedImage;
+  File _pickedImage = File('assets/transparent.png');
   final ImagePicker _picker = ImagePicker();
 
   void _pickImage() async {
@@ -28,13 +28,15 @@ class _UserImagePickerState extends State<UserImagePicker> {
         CircleAvatar(
           radius: 40,
           backgroundColor: Colors.grey,
-          backgroundImage:
-              (_pickedImage != null) ? FileImage(_pickedImage) : null,
+          backgroundImage: FileImage(_pickedImage),
+          // backgroundImage: (_pickedImage != null)
+          //     ? FileImage(_pickedImage)
+          //     : FileImage(_pickedImage),
         ),
         FlatButton.icon(
           textColor: Theme.of(context).primaryColor,
           onPressed: _pickImage,
-          icon: Icon(
+          icon: const Icon(
             Icons.image,
           ),
           label: Text('Add Image'),
