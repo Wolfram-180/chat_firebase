@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UserImagePicker extends StatefulWidget {
   const UserImagePicker({Key? key}) : super(key: key);
@@ -14,7 +16,8 @@ class UserImagePicker extends StatefulWidget {
 class _UserImagePickerState extends State<UserImagePicker> {
   //String _pickedImagePathDflt = 'assets/images/transparent.png';
   String _pickedImagePath = 'assets/images/transparent.png';
-  late File _pickedImage;
+  late File? _pickedImage;
+  bool _isPicked = false;
 
   @override
   void initState() {
@@ -24,45 +27,36 @@ class _UserImagePickerState extends State<UserImagePicker> {
 
   final ImagePicker _picker = ImagePicker();
 
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('assets/$path');
+
+    final file = File('${(await getTemporaryDirectory()).path}/$path');
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
+  }
+
   void _pickImage() async {
-    final pickedImageFile = await _picker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _pickedImagePath = pickedImageFile!.path;
-      _pickedImage = pickedImageFile as File;
-    });
+    _isPicked = true;
+    _pickedImage =
+        await (_picker.pickImage(source: ImageSource.camera) as File);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AvatarView(
-          radius: 60,
-          borderWidth: 8,
-          borderColor: Colors.yellow,
-          avatarType: AvatarType.CIRCLE,
-          backgroundColor: Colors.red,
-          imagePath: _pickedImagePath,
-          placeHolder: Container(
-            child: Icon(
-              Icons.person,
-              size: 50,
-            ),
-          ),
-          errorWidget: Container(
-            child: Icon(
-              Icons.error,
-              size: 50,
-            ),
-          ),
+        CircleAvatar(
+          radius: 40,
+          backgroundColor: Colors.grey,
+          backgroundImage: _isPicked == false
+              ? AssetImage('assets/images/body.jpg') as ImageProvider
+              : FileImage(_pickedImage!), //FileImage(_pickedImage as File),
+          //    AssetImage('assets/images/body.jpg'), // FileImage(_pickedImage),
+          //  (_pickedImage != null)   ? : AssetImage('assets/images/body.jpg'),
         ),
-        //CircleAvatar(
-        //  radius: 40,
-        //  backgroundColor: Colors.grey,
-        //  backgroundImage: FileImage(_pickedImage),
-        //    AssetImage('assets/images/body.jpg'), // FileImage(_pickedImage),
-        //(_pickedImage != null)   ? : AssetImage('assets/images/body.jpg'),
-        // ),
         FlatButton.icon(
           textColor: Theme.of(context).primaryColor,
           onPressed: _pickImage,
