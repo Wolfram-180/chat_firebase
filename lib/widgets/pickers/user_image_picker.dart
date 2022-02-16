@@ -7,25 +7,27 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class UserImagePicker extends StatefulWidget {
-  const UserImagePicker({Key? key}) : super(key: key);
+  late final void Function(File? pickedImage) imagePickFn;
 
   @override
   _UserImagePickerState createState() => _UserImagePickerState();
+
+  UserImagePicker(this.imagePickFn);
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
   //String _pickedImagePathDflt = 'assets/images/transparent.png';
   String _pickedImagePath = 'assets/images/transparent.png';
-  late File? _pickedImage;
+  late File _pickedImage;
   bool _isPicked = false;
 
-  @override
-  void initState() {
-    _pickedImage = File(_pickedImagePath);
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _pickedImage = File(_pickedImagePath);
+  //   super.initState();
+  // }
 
-  final ImagePicker _picker = ImagePicker();
+  ImagePicker _picker = ImagePicker();
 
   Future<File> getImageFileFromAssets(String path) async {
     final byteData = await rootBundle.load('assets/$path');
@@ -38,10 +40,12 @@ class _UserImagePickerState extends State<UserImagePicker> {
   }
 
   void _pickImage() async {
-    _isPicked = true;
-    _pickedImage =
-        await (_picker.pickImage(source: ImageSource.camera) as File);
-    setState(() {});
+    final pickedImageFile = await _picker.pickImage(source: ImageSource.camera);
+    setState(() {
+      _isPicked = true;
+      _pickedImage = (File(pickedImageFile!.path));
+    });
+    widget.imagePickFn(_pickedImage);
   }
 
   @override
@@ -52,8 +56,8 @@ class _UserImagePickerState extends State<UserImagePicker> {
           radius: 40,
           backgroundColor: Colors.grey,
           backgroundImage: _isPicked == false
-              ? AssetImage('assets/images/body.jpg') as ImageProvider
-              : FileImage(_pickedImage!), //FileImage(_pickedImage as File),
+              ? AssetImage('assets/images/transparent.png') as ImageProvider
+              : FileImage(_pickedImage), //FileImage(_pickedImage as File),
           //    AssetImage('assets/images/body.jpg'), // FileImage(_pickedImage),
           //  (_pickedImage != null)   ? : AssetImage('assets/images/body.jpg'),
         ),
