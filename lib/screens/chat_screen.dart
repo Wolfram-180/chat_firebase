@@ -12,6 +12,14 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   @override
+  void initState() {
+    //final fbm = FirebaseMessaging.instance;
+    //fbm.requestPermission();
+    //fbm.configure();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
