@@ -26,7 +26,7 @@ class _AuthFormState extends State<AuthForm> {
   var _userName = '';
   var _userPassword = '';
   var _isLogin = true;
-  late File? _userImageFile;
+  File? _userImageFile = null;
 
   void _pickedImage(File? image) {
     _userImageFile = image;
@@ -110,8 +110,8 @@ class _AuthFormState extends State<AuthForm> {
                     validator: (value) {
                       if (value == null ||
                           value.isEmpty == true ||
-                          value.length < 7) {
-                        return 'Please enter valid password with at least 7 symbols';
+                          value.length < 6) {
+                        return 'Please enter valid password with at least 6 symbols';
                       }
                       return null;
                     },
