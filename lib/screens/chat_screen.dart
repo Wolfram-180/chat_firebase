@@ -43,15 +43,6 @@ class _ChatScreenState extends State<ChatScreen> {
       print('A new onMessageOpenedApp event was published!');
     });
 
-    // FirebaseMessaging.onBackgroundMessage((RemoteMessage message) {
-    //   RemoteNotification? notification = message.notification;
-    //   AndroidNotification? android = message.notification?.android;
-    //   if (notification != null && android != null) {
-    //     print(message.notification?.body);
-    //     //return null;
-    //   }
-    // });
-
     //fbm.getToken();
 
     fbm.subscribeToTopic('chat');
@@ -61,9 +52,10 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FlutterChat'),
+        title: const Text('FlutterChat'),
         actions: [
           DropdownButton(
+            underline: Container(),
             icon: Icon(
               Icons.more_vert,
               color: Theme.of(context).primaryIconTheme.color,
@@ -72,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
               DropdownMenuItem(
                 child: Container(
                   child: Row(
-                    children: [
+                    children: const [
                       Icon(Icons.exit_to_app),
                       SizedBox(width: 8),
                       Text('Logout'),
